@@ -1,0 +1,134 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <section>
+        <div class="container">
+            <p>
+                You are viewing lesson **{{lesson.order}}** of **{{lesson.module.lesson.count}}**
+            </p><hr>
+
+            <p>
+                <a href="{% url 'courses:course_details' course.slug %}">&laquo; Back to {{course.title}}</a>
+                <h1>Lesson : {{lesson.order}}: {{lesson.titile}}</h1>
+                <p>Module: {{module.title}}</p>
+            </p>
+            <div class="lesson_content">
+                {% if lesson.content_type == 'text' %}
+                    <h4>Text Content</h4>
+                    {{lesson.text_content|safe}}
+
+                {% elif lesson.content_type == 'video_url' %}
+                    <h4>Video Content</h4>
+
+                    {% if lesson.video_url %}
+                    <div class="video_container">
+                        <iframe src="{{lesson.video_url}}" frameborder="0"allowfullscreen></iframe>
+                    </div>
+                    {% else %}
+                    <p>No Video URL provided</p>
+                    {% endif %}
+                
+                {% elif lesson.content_type == 'file' %}
+                    <h4>File</h4>
+
+                    {% if lesson.file_upload %}
+                    <p>
+                        <a href="{{lesson.file_upload.url}}" download>
+                            Download:{{lesson.file_upload.name|cut:"lesson_files/"}}
+                        </a>
+                    </p>
+                    {% else %}
+                    <p>No file </p>
+                    {% endif %}
+                
+                {% else %}
+                    <p>Unsupported lesson content type</p>
+
+                {% endif %}
+
+            </div>
+
+            <div class="nav_links">
+                {% if previous_lesson %}
+                    <a href="{% url 'courses:lesson_details' course.slug module.slug previous_lesson.slug %}">
+                        &larr; Previous Lesson</a>
+                {% endif %}
+
+                {% if next_lesson %}
+                    <a href="{% url 'courses:lesson_details' course.slug module.slug next_lesson.slug %}">
+                        &larr; next Lesson</a>
+                {% endif %}
+            </div><hr>
+
+            <div class="mark_complete_section">
+                {% if lesson_completion.is_completed %}
+                    <div class="completed_message">
+                        Lesson Completed! ({{lesson_completion.completed_at|date:"M d, Y H:i"}})
+                    </div>
+                {% else %}
+
+                    <form action="{% url 'courses:mark_lesson_complete' course.slug module.slug lesson.slug %}" 
+                    method="post" class="mark_complete_form">{% csrf_token %}
+                        <button type="submit" class="mark_complete_button">Mark-as-complete</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container mt-4">
+            {% if lesson.quiz and lesson.quiz.is_published %}
+                <div class="card my-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Quiz : {{lesson.quiz.title}}
+                        </h5>
+                        <p class="card-text">
+                            {{lesson.quiz.description}}
+                        </p>
+
+                        <form action="{% url 'quiz:quiz_start' lesson.quiz.id %}" method="post"> {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Start Quiz</button>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section><br>
+
+    <section>
+        {% if comments %}
+            <div class="container">
+                <h4>Comments</h4>
+                <div class="list-group">
+                    {% for c in comments %}
+                        <div class="list-group-item list-group-item-action flex-column align-items-start">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">
+                                    {{c.author.username}}
+                                </h6>
+                                <small class="text-muted">
+                                    {{c.created_at|date:"F j, Y"}}
+                                </small>
+                            </div>
+                            <p class="mb-1">{{c.content}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div><br>
+        {% endif %}
+
+        <div class="container">
+            <h4>Leave a Comment</h4>
+            <form action="" method="post"> {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="btn-primary">Submit Comment</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+{% endblock content %}

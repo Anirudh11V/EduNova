@@ -1,0 +1,30 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+<main id="login">
+    <section>
+        <div class="form_container">
+            <h2>{{page_title}}</h2>
+            <form action="" method="post"> {% csrf_token %}
+                <div class="form_group">
+                    <label for="{{form.username.id_for_label}}">Username : </label>
+                    {{form.username}}
+                </div>
+                <div class="form_group">
+                    <label for="{{form.password.id_for_label}}">Password : </label>
+                    {{form.password}}
+                </div>
+
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+
+            <div class="from_link">
+                <p class="form_text">Don't have an account?<a href="{% url 'users:register' %}">Register Here</a></p>
+                <p class="form_text"><a href="{% url 'password_reset' %}">Forget Your password?</a></p>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+
+{% block title %}
+    {{page_title}}
+{% endblock title %}
+
+<main>
+
+    <section>
+        <div>
+            <h2>{{request.user.username}}'s Profile</h2>
+            <p>Bio : {{request.user.profile.bio}}</p>
+
+            <div>
+                <h3>Account Details</h3>
+                <form action="" method="post"> {% csrf_token %}
+                    <h4>Personal information</h4>
+                    {{user_form.as_p}}
+                    <button type="submit" name="update_user">Update Details</button>
+                </form>
+            </div><hr>
+
+            <div>
+                <form action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
+                    <h4>About Me</h4>
+                    {{profile_form.as_p}}
+                    <button type="submit" name="update_profile">Update Profile</button>
+                </form>
+            </div><hr>
+
+            {% if request.user.is_authenticated %}
+                <h4>My Course (as Instructor)</h4>
+                {% for course in instructor_course %}
+                    <p>
+                        <a href="{% url 'courses:course_details' course.slug %}">{{course.title}}</a>
+                    </p>
+                {% empty %}
+                    <p>You haven't created any course yet.</p>
+                {% endfor %}
+                    
+                <h4>My Course (as Student)</h4>
+                {% for enrolled in enrolled_course %}
+                    <p>
+                        <a href="{% url 'courses:course_details' enrolled.course.slug %}">{{enrolled.course.title}}</a>
+                    </p>
+                {% empty %}
+                    <p>You are not enrolled in any course yet.</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+</main>
+
+{% endblock content %}

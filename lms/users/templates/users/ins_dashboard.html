@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+    {{page_title}}
+{% endblock title %}
+
+{% block content %}
+
+<main>
+    <section>
+        <div class="dash_container">
+
+            <div class="card-header mb-4">
+                <h2 class="dash_title">{{page_title}}</h2>
+                <a href="{% url 'courses:course_create' %}" class="btn btn-success">
+                    Create New Course
+                </a>
+            </div>
+            
+
+            {% if instructor_course %}
+                <div class="course_card_list">
+
+                    {% for course in instructor_course %}
+                        <div class="course_card">
+                            <h3>{{course.title}}</h3>
+                            <p>{{course.description|truncatechars:100}}</p>
+                            <p class="instructor">
+                                {% if course.is_published %}
+                                    <span class="status_publish">Published</span>
+                                {% else %}
+                                    <span class="status_draft">Draft</span>
+                                {% endif %}
+                            </p>
+
+                            <div class="card-footer">
+                                <span>
+                                    <a href="{{course.get_absolute_url}}" class="btn btn-info w-50 mb-2">View Course</a>
+                                    <a href="{% url 'courses:course_manage' course.slug %}" class="btn btn-secondary w-50">
+                                        Manage
+                                    </a>
+                                </span>
+                                <span>
+                                    <a href="{% url 'courses:course_update' course.slug %}" class="edit_btn">Edit</a>
+                                    <a href="{% url 'courses:course_delete' course.slug %}" class="del_btn">Delete</a>
+                                </span>
+                            </div>
+                            
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+            <p class="no_course_msg">
+                You haven't created any Courses yet.
+            </p>
+
+            <p class="no_course_msg">
+                Click the button above to create Your first course
+            </p>
+
+            {% endif %}
+
+        </div>
+    </section>
+</main>
+
+{% endblock content %}

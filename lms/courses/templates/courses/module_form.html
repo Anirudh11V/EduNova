@@ -1,0 +1,47 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}
+    {{object.title}}
+{% endblock title %}
+
+{% block content %}
+
+<main>
+    <section>
+        
+        <div class="container p-auto">
+
+            <h2>Module Creation / Edit</h2>
+            <p>For Course : {{course.title}}</p>
+
+            <form action="" method="post"> {% csrf_token %}
+                {% for i in form %}
+
+                    <div class="list-group">
+                        <label for="{{i.id_for_label}}">{{i.label}} : </label>
+                        {{i}}
+
+                        {% if i.errors %}
+                            <ul class="errorlist">
+                                {% for error in i.errors %}
+                                    <li>{{error}}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        
+                    </div>
+
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary w-50 mt-3">Create / Edit</button>
+                <a href="{{course.get_absolute_url}}" class="btn btn-secondary mt-3">
+                    &laquo; Back
+                </a>
+            </form>
+
+        </div>
+    </section>
+</main>
+
+{% endblock content %}
