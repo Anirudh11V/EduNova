@@ -23,7 +23,7 @@ def register(request):
             user= form.save()
             login(request, user)
             messages.success(request, "Registration Successful.")
-            return redirect('courses:course_list')
+            return redirect('courses:home')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -49,7 +49,7 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Welcome {username} !.")
-                return redirect('courses:course_list')
+                return redirect('courses:home')
             else:
                 messages.error(request, "Invalid credentials.")
             

@@ -30,11 +30,93 @@
 
         {% block content %}
 
+            <section class="container-fluid bg-light text-dark p-5">
+                <div class="container bg-light p-5 text-center">
+                    <h1 class="display-4 fw-bold"> {{page_title}} </h1>
+                    <p class="fs-4">
+                        Your journey to knowledge begins here. Find your next course today.
+                    </p>
+
+                    <form action="{% url 'courses:course_list' %}" method="get" class="mt-4">
+
+                        <div class="input-group mt-3 mb-3 mx-auto w-50">
+                            <input type="text" name="q" class="form-control form-control-lg m-auto"
+                            placeholder="Search for Course..." required>
+
+                            <button type="submit" class="btn btn-primary mt-3 m-auto">Search</button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+            <section class="container text-center my-5">
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <h3>{{course_count}}</h3>
+                        <p class="text-muted"> Online Courses </p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3> {{student_count}} </h3>
+                        <p class="text-muted"> Happy Students. </p>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3> {{instructor_count}} </h3>
+                        <p class="text-muted"> Expert Instructors</p>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="container my-5">
+                
+                {% for category in categories %}
+                    {% if category.courses.all %}
+                    <h2 class="mb-4"> {{category.Name}} - Courses </h2>
+                        <div class="row">
+                            {% for course in category.courses.all|slice:":4" %}
+                            
+                            <div class="col-md-6 col-lg-4 mb-4 ">
+                                <div class="card h-100">
+                                    {% if course.thumbnail %}
+                                        <img src=" {{course.thumbnail.url}} " alt=" {{course.title}} "
+                                        class="card-img-top" thumbnail>
+                                    
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/120x90?text=No+Image" alt="No Thumbnail"
+                                        class="card-img-top">
+
+                                    {% endif %}
+
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title"> {{course.title}} </h5>
+                                        <p class="card-text text-muted">
+                                            <small>by {{course.instructor.username}} </small>
+                                        </p>
+                                        <a href="{{course.get_absolute_url}}" class="btn btn-primary">
+                                            View Course
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                        <hr class="my-5">
+
+                    {% endif %}
+                {% endfor %}
+            </section>
+
         {% endblock content %}
     </main>
 
     <footer>
-        <p id="foot">&copy; 2025 Anirudh Projects</p>
+        <p id="foot">&copy; 2025 EduNova inc</p>
     </footer>
 </body>
 </html>

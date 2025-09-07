@@ -75,14 +75,20 @@ urlpatterns = [
     
      # main url
     path(
+        'course_list/', 
+        views.course_list, 
+        name= 'course_list'
+        ),
+    path(
         '<slug:course_slug>/', 
         views.course_detail, 
         name= 'course_details'
         ),
+    
     path(
-        '', 
-        views.course_list, 
-        name= 'course_list'
-        ),
+        '',
+        views.home,
+        name= 'home',
+    ),
     
 ]

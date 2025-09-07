@@ -54,7 +54,7 @@ AUTH_USER_MODEL = 'users.MemberUser'
 
 # Redirect url after login / logout.
 
-LOGIN_REDIRECT_URL = '/courses:course_list/'
+LOGIN_REDIRECT_URL = '/courses:home/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 LOGIN_URL = "/accounts/login/"
 

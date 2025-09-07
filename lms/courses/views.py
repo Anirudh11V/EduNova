@@ -3,35 +3,65 @@ from .models import Category, Course, Module, Lesson, Review
 from .forms import CourseForm, ModuleForm, LessonForm, CommentForm, CategoryForm, ReviewForm
 from enrollment.models import Enroll
 from quiz.models import QuizAttempt, Quiz
-from users.models import UserLessonCompletion
+from users.models import UserLessonCompletion, MemberUser
 from users.task import task_notify_new_lesson
 
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from django.db import IntegrityError
-from django.db.models import Max
+from django.db import IntegrityError, models
+from django.db.models import Max, Q, Prefetch
 from django.utils import timezone
 from django.contrib import messages
 from django.utils.text import slugify
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 # Create your views here.
+
+def home(request):
+    categories = Category.objects.prefetch_related(
+        Prefetch('courses', queryset= Course.objects.filter(is_published= True))
+    )
+
+    course_count = Course.objects.filter(is_published= True).count()
+    student_count = MemberUser.objects.filter(is_student= True).count()
+    instructor_count = MemberUser.objects.filter(is_instructor= True).count()
+
+    context = {'categories': categories, 'course_count': course_count,
+               'student_count': student_count, 'instructor_count': instructor_count, 'page_title': 'Welcome to EduNova'}
+    
+    return render(request, 'main.html', context)
 
 # ------------- COURSE LIST/DETAIL-VIEW ------------------------------------------------.
 
 def course_list(request):
     category_slug = request.GET.get('category')
-    courses = Course.objects.filter(is_published= True)
     categories = Category.objects.all()
+
+    query = Course.objects.filter(is_published= True).order_by('-created_at')
+    search_query = request.GET.get('q')
+
+    if search_query:
+        query = query.filter(
+            Q(title__icontains= search_query) | 
+            Q(description__icontains= search_query)
+        )
 
     if category_slug:
         category = get_object_or_404(Category, slug= category_slug)
-        courses = courses.filter(category= category)
+        query = query.filter(category= category)
     else:
         category = None
+
+    course = Course.objects.all()
+    paginator = Paginator(course, 10)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
-    context= {'courses': courses, "categories": categories, 'selected_category': category, "page_title": 'All Courses'}
+    context= {'course': query, "categories": categories, 'selected_category': category, 
+              'page_obj': page_obj, "page_title": 'All Courses'}
     return render(request, 'courses/course_list.html', context)
 
 @login_required(login_url= 'users:login')

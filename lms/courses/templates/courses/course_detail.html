@@ -9,8 +9,10 @@
 
 <main>
     <section>
+        <span>
+            <a href="{% url 'courses:home' %}">&laquo; Back to HOME</a>
+        </span>
         <div class="container">
-            <a href="{% url 'courses:course_list' %}">&laquo; Back to All Courses</a>
             <h2>{{course.title}}</h2>
             <div class="mb-3">
                 <h4>

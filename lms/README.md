@@ -217,4 +217,5 @@ License.
 Contact.
 
 	- Anirudh - anirudh11v@gmail.com .
-	- project link: https://github.com/Anirudh11V/Learning_Management_System.git   .
+	- project link: https://github.com/Anirudh11V/Learning_Management_System.git  .
+	- project link: https://github.com/Anirudh11V/EduNova.git   .
