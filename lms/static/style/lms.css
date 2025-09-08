@@ -1,0 +1,350 @@
+body{
+    font-family: Arial, Helvetica, sans-serif; margin: 20px; background-color: #f4f4f4;
+}
+a{text-decoration: none; font-weight: bold;}
+
+.container{
+    max-width: 960px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1{color: #333;}
+h2, h3{color: #555; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-top: 20px;} 
+
+/* nav */
+#nav{display: flex; justify-content: right; margin-top: 0px; gap: 10px;}
+nav h2{color: #007bff; font-family: Arial, Helvetica, sans-serif;}
+
+/* Course_list.html */
+#lo a{text-decoration: none; color: #721c24; font-weight: bold; float: right;}
+
+.course-card img{
+    width: 120px; height: 90px; object-fit: cover; margin-right: 15px; border-radius: 3px;
+}
+.course-card-content h3{
+    margin-top: 0; margin-bottom: 5px;
+}
+.course-card-content p{
+    font-size: 0.9rem; color: #666; margin-bottom: 5px;
+}
+.course-card-content a{
+    text-decoration: none; color: #007bff; font-weight: bold;
+}
+.course-card-content a:hover{text-decoration: underline;}
+.categories a{
+    display: inline-block; padding: 5px 10px; margin-right: 5px; margin-bottom: 10px; border: 1px solid #007bff;
+    border-radius: 3px; text-decoration: none; color: #007bff;
+}
+.categories a.active, .categories a:hover{background-color: #007bff; color: white;}
+
+/* course_details.html */
+.course_info{
+    display: flex; align-items: flex-start; margin-bottom: 20px;
+}
+.course_info img{
+    width: 250px; height: 180px; object-fit: cover; border-radius: 5px;
+}
+.course_info_text{flex-grow: 1;}
+.course_meta span{
+    display: block; font-size: 0.9rem; color: #777; margin-bottom: 5px;
+}
+.module_item{
+    background-color: #f9f9f9; border: 1px solid #eee; margin-bottom: 10px; padding: 15px; border-radius: 5px;
+}
+.lesson_item{margin-left: 20px; margin-bottom: 5px; list-style: none; }
+.lesson_item a{text-decoration: none; color: #007bff;}
+.lesson_item a:hover{text-decoration: underline;}
+
+.enroll_btn{
+    background-color: #28a745; color: #eee; padding: 10px 20px; margin-top: 15px;
+    border: none; border-radius: 5px; cursor: pointer; font-size: 1.1rem; text-decoration: none; display: inline-block;
+}
+.enroll_btn:hover{background-color: #218838;}
+
+.already_enrolled{
+    background-color: #6c757d; color: #eee; padding: 10px 20px; border-radius: 5px; font-size: 1.1rem;
+    display: inline-block; margin-top: 15px; cursor: default;
+}
+
+
+/* lesson_detail.html */
+.lesson_content h4{color: #007bff; margin-top: 0;}
+.video_container{
+    position: relative; padding-bottom: 56.25%; height: 0; overflow:  hidden;
+    max-width: 100%; background: #000; margin-bottom: 20px;
+}
+.video_container iframe, .video_container object, .video_container embed{
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+}
+
+.mark_complete_form{margin-top: 20px; text-align: right;}
+.mark_complete_button{
+    background-color: #007bff; color: #eee; padding: 10px 15px; border: none;
+    border-radius: 5px; cursor: pointer; font-size: 1em;
+}
+.mark_complete_button:hover{background-color: #0056b3;}
+.completed_message{
+    background-color: #28a745; color: white; padding: 10px 15px; border-radius: 5px; 
+    display: inline-block; margin-top: 10px;
+}
+
+.navlinks{
+    margin-top: 20px; display: flex; justify-content: space-between;
+}
+.navlinks a{color: #007bff; text-decoration: none;}
+.navlinks a:hover{text-decoration: underline;}
+
+
+/* Access_denied.html */
+#access{
+    font-family: Arial, Helvetica, sans-serif; margin: 20px; background-color: #f8d7da; color: #721c24;
+    border: 1px solid #f5c6cb; border-radius: 5px; padding: 20px; max-width: 600px; margin: 50px auto;
+    text-align: center;
+}
+#access a{color: #dc3545; text-decoration: none; font-weight: bold;}
+#access a:hover{text-decoration: underline;}
+
+/* login.html */
+
+#login{
+    font-family: Arial, Helvetica, sans-serif; margin: 20px; background-color: #f4f4f4; display: flex;
+    justify-content: center; align-items: center; min-height: 80vh;
+}
+
+#login h1{text-align: center; color: #333; margin-bottom: 25px;}
+#login form p{margin-bottom: 15px;}
+#login form label{display: block; margin-bottom: 5px; font-weight: bold; color: #555;}
+#login form input[type='text'],
+                  form input[type="password"],
+                  form input[type='email'] {
+                    width: calc(100% - 22px); padding: 10px; border: 1px solid #ddd;
+                    border-radius: 5px; font-size: 1rem; box-sizing: border-box;
+          }
+
+
+#login form button{
+    width: 100%; padding: 12px; background-color: #007bff; color: #fff; border: none; margin: 25px auto;
+    border-radius: 5px; font-size: 1rem; cursor: pointer; transition: background-color 0.3s ease;
+}
+#login form button:hover{background-color: #0056b3;}
+
+/* Register.html */
+
+#register{
+    font-family: Arial, Helvetica, sans-serif; margin: 20px; background-color: #f4f4f4; display: flex;
+    justify-content: center; align-items: center; min-height: 80vh;
+}
+.form_container{
+    background-color: #fff; padding: 30px; border-radius: 5px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    width: 100%; max-width: 400px;
+}
+#register h1{text-align: center; color: #333; margin-bottom: 25px;}
+#register form p{margin-bottom: 15px;}
+#register form label{display: block; margin-bottom: 5px; font-weight: bold; color: #555;}
+#register form input[type='text'],
+                  form input[type="password"],
+                  form input[type='email'] {
+                    width: calc(100% - 22px); padding: 10px; border: 1px solid #ddd;
+                    border-radius: 5px; font-size: 1rem; box-sizing: border-box;
+          }
+#register form input[type="checkbox"] {margin-right: 10px;}
+#register form button{
+                    width: 100%; padding: 12px; background-color: #007bff; color: #fff; border: none;
+                    border-radius: 5px; font-size: 1rem; cursor: pointer; transition: background-color 0.3s ease;
+}
+#register form button:hover{background-color: #0056b3;}
+
+.error_list{
+    color: red; list-style: none; padding: 0; margin-top: 5px; font-size: 0.9rem;
+}
+
+.messages{list-style: none; padding: 0; margin-bottom: 20px; text-align: center; }
+.messages li{padding: 10px; margin-bottom: 10px; border-radius: 5px; font-weight: bold;}
+.messages .success{background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;}
+.messages .error{background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;}
+.messages .info{background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb;}
+
+.form_link {text-align: center; margin-top: 15px; font-size: 0.9rem;}
+.font_link a{color: #007bff; text-decoration: none;}
+.form_link a:hover{text-decoration: underline;}
+
+
+/* profile.html */
+#profile{font-family: Arial, Helvetica, sans-serif; margin: 20px; background-color: #f4f4f4;}
+
+#profile .container{
+    max-width: 800px; margin: auto; background-color: #fff; padding: 30px; border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+#profile h1{color: #333; margin-bottom: 25px; text-align: center;}
+
+.profile_info p{margin-bottom: 10px; line-height: 1.6;}
+.profile_info strong{color: #555; display: inline-block; width: 120px;}
+
+.action_link{margin-top: 30px; text-align: center;}
+.action_link a{
+    text-decoration: none; display: inline-block; padding: 10px 15px; background-color: #007bff; color: #fff;
+    border-radius: 5px; margin: 0 10px; transition: background-color 0.3s ease;
+}
+.action_link a:hover{background-color: #0056b3;}
+
+.action_link_a_logout-btn {background-color: #dc3545;}
+.action_link_a_logout-btn:hover{background-color: #c82333;}
+
+
+/* student dashboard.html and Instructor dashboard.html*/
+.dash_container{
+    max-width: 900px; margin: 40px auto; padding: 2px; background-color: #f9f9f9;
+    border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); font-family: Arial, Helvetica, sans-serif;
+}
+.dash_title{
+    color: #333; text-align: center;margin-bottom: 30px; font-size: 2.2em;
+}
+.course_card_list{display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;}
+.course_card{
+    background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 8px;
+    padding: 20px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); 
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+.course_card:hover{transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); }
+.course_card h3{color: #007bff; margin-top: 0; font-size: 1.5em; margin-bottom: 10px;}
+.course_card p{color: #555; line-height: 1.5; font-size: 0.9em; margin-bottom: 5px;}
+.course_card .instructor{font-style: italic; color: #777; margin-bottom: 15px;}
+
+.course_card .view_btn{
+    display: inline-block; background-color: #28a745; color: white; font-weight: bold; 
+    padding: 10px 15px; border-radius: 5px; text-decoration: none; transition: background-color 0.2s ease-in-out;
+}
+.course_card .view_btn:hover{background-color: #218838;}
+
+.no_course_msg{text-align: center; color: #666; font-size: 1.1em; margin-top: 50px;}
+
+.login_prompt{text-align: center; color: #555; font-size: 1.1em; margin-top: 50px;}
+.login_prompt a{color: #007bff; text-decoration: none; font-weight: bold;}
+.login_prompt a:hover{text-decoration: underline;}
+
+/* Password */
+/* Reset_form.html */
+#p_reset_form .form_container{
+    max-width: 400px; margin: 50px auto; padding: 30px; font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) ;
+}
+#p_reset_form h2{text-align: center; color: #333; margin-bottom: 25px; font-size: 1.8em;}
+#p_reset_form .form_group{margin-bottom: 20px;}
+
+#p_reset_form label{
+    display: block; margin-bottom: 8px; font-weight: bold; color: #555;
+}
+.form_control{
+    width: 100%; padding: 12px; border: 1px solid #ccc;
+    border-radius: 5px; box-sizing: border-box;
+}
+#p_reset_form .btn-primary{
+    width: 100%; padding: 12px; background-color: #007bff; border: none; color: white;
+    font-size: 1.1em; font-weight: bold; border-radius: 5px; cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#p_reset_form .btn-primary:hover{background-color: #0056b3;}
+#p_reset_form .form_text{text-align: center; margin-top: 15px; color: #777;}
+
+
+/* Reset_done.html */
+#p_reset_done .message_container{
+    max-width: 500px; margin: 50px auto; padding: 30px; font-family: Arial, Helvetica, sans-serif;text-align: center;
+    border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) ;
+}
+#p_reset_done h2{text-align: center; color: #28a745; margin-bottom: 20px; font-size: 2em;}
+#p_reset_done p{text-align: center; color: #555; margin-bottom: 10px; line-height: 1.6;}
+
+/* Reset_confirm.html */
+#p_reset_confirm .form_container{
+    max-width: 400px; margin: 50px auto; padding: 30px; font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) ;
+}
+#p_reset_confirm h2{text-align: center; color: #333; margin-bottom: 25px; font-size: 1.8em;}
+#p_reset_confirm .form_group{margin-bottom: 20px;}
+#p_reset_confirm label{
+    display: block; margin-bottom: 8px; font-weight: bold; color: #555;
+}
+
+#p_reset_confirm .btn-primary{
+    width: 100%; padding: 12px; background-color: #007bff; border: none; color: white;
+    font-size: 1.1em; font-weight: bold; border-radius: 5px; cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+#p_reset_confirm .btn-primary:hover{background-color: #0056b3;}
+
+#p_reset_confirm .form_text{text-align: center; margin-top: 15px; color: #777;}
+#p_reset_confirm .error_list{
+    list-style: none; padding: 0; color: red; font-weight: bold;
+}
+
+/* Reset_complete.html */
+#p_reset_comp .message_container{
+    max-width: 500px; margin: 50px auto; padding: 30px; font-family: Arial, Helvetica, sans-serif;text-align: center;
+    border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) ;
+}
+#p_reset_comp h2{text-align: center; color: #28a745; margin-bottom: 20px; font-size: 2em;}
+#p_reset_comp p{text-align: center; color: #555; margin-bottom: 10px; line-height: 1.6;}
+
+#p_reset_comp .login_link{color: #007bff; text-decoration: none; font-weight: bold;}
+#p_reset_comp .login_link:hover{text-decoration: underline;}
+
+
+/* course form.html */
+.form_container{
+    max-width: 600px; margin: 50px auto; padding: 30px;
+    border: 1px solid #ddd; border-radius: 8px; background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.form_container h2{text-align: center; color: #333; margin-bottom: 25px; font-size: 1.8em;}
+.form_group{margin-bottom: 20px;}
+
+.form_container label{display: block; color: #555; margin-bottom: 20px; font-weight: bold;}
+
+.form_control{
+    width: 100%; padding: 12px; border: 1px solid #ccc;
+    border-radius: 5px; box-sizing: border-box;
+}
+textarea.form_control{resize: vertical;}
+
+.btn-primary{
+    width: 100%; padding: 12px; background-color: #007bff;
+    border: none; color: white; font-size: 1.1em; font-weight: bold;
+    border-radius: 5px; cursor: pointer; transition: background-color 0.2 ease-in-out;
+}
+.btn-primary:hover{background-color: #0056b3;}
+
+.error_list{
+    color: red; list-style: none; padding: 0; margin-top: 5px; font-size: 0.9rem;
+}
+
+
+/* course confirm delete.html */
+.delete_container{
+    max-width: 500px; margin: 50px auto; padding: 30px;
+    border: 1px solid #fff; border-radius: 8px; background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); text-align: center;
+}
+.delete_container h2{color: #dc3545; margin-bottom: 20px; font-size: 1.8em;}
+.delete_container p{color: #555; line-height: 1.6; margin-bottom: 20px;}
+
+.btn_group{display: flex; justify-content: space-around;}
+.btn-danger, .btn-secondary {
+    padding: 10px 20px; font-weight: bold; text-decoration: none; 
+    border-radius: 5px; transition: opacity 0.2;
+}
+
+.btn-danger{background-color: #dc3545; color: white; border: none;}
+.btn-danger:hover{background-color: #c82333;}
+
+.btn-secondary{background-color: #6c757d; color: white; border: none;}
+.btn-secondary:hover{background-color: #5a6268;}
+/* footer */
+#foot{
+    text-align: center;margin: 25px auto; font-family: Verdana, Geneva, Tahoma, sans-serif; 
+    font-size: 0.9em; 
+}
+
+#profile_img_pic{
+    width: 80px; height: 80px; object-fit: cover;
+}

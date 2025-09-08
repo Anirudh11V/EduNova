@@ -32,6 +32,11 @@ class Profile(models.Model):
     bio = models.TextField(max_length= 500, blank= True)
     profile_pic = models.ImageField(upload_to= 'profile_pics/', default= 'default.jpg', blank= True)
 
+    headline = models.CharField(max_length= 100, blank= True, help_text= 'e.g., Senior Developer')
+    location = models.CharField(max_length= 100, blank= True, help_text= 'e.g., Tamil Nadu, India')
+    website_url = models.URLField(blank= True)
+    whatsapp_url = models.URLField(blank= True)
+
     def __str__(self):
         return f'{self.user.username} Profile'
     

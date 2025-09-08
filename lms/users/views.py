@@ -4,14 +4,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.db.models import F, Count, OuterRef, Subquery
+from django.db.models import F, Count, OuterRef, Subquery, Avg
 from django.db.models.functions import Coalesce
 from django.contrib.auth import get_user_model, update_session_auth_hash
 
 from .forms import MemberUserChangeForm, MemberUserCreation, UserUpdateForm, ProfileUpdateForm
 from .models import Profile, Notification, UserLessonCompletion
 from enrollment.models import Enroll
-from courses.models import Course, Lesson
+from courses.models import Course, Lesson, Review
+from quiz.models import QuizAttempt
 # Create your views here.
 
 
@@ -78,22 +79,33 @@ def profile(request):
         user_form = UserUpdateForm(request.POST, instance= user)
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance= user.profile)
 
-        if 'update_user' in request.POST and user_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
-            messages.success(request, "Your accounts details are updated successfully.")
-            return redirect('users:profile')
-        
-        elif 'update_profile' in request.POST and profile_form.is_valid():
             profile_form.save()
-            messages.success(request, "Your profile details are updated successfully.")
+            messages.success(request, "Your Profile updated successfully.")
             return redirect('users:profile')
         
     else:
         user_form = UserUpdateForm(instance= user)
         profile_form = ProfileUpdateForm(instance= user.profile)
 
-    enrolled_course = Enroll.objects.filter(student= user)
-    instructor_course = Course.objects.filter(instructor= user)
+    user_content = None
+    profile_stats = {}
+
+    if request.user.is_instructor:
+        user_content = Course.objects.filter(instructor= user)
+        # Calculate instructor stats
+        total_student_qs = Enroll.objects.filter(course__instructor= user).values('student').distinct()
+        profile_stats['Total Students'] = total_student_qs.count()
+        profile_stats['Average Rating'] = Review.objects.filter(
+            course__instructor= user).aggregate(avg_rating= Avg('rating'))['avg_rating'] or 0
+        
+    elif request.user.is_student:
+        user_content = Review.objects.filter(student= user)
+        # Calculate student stats
+        profile_stats['Course Enrolled'] = Enroll.objects.filter(student= user).count()
+        profile_stats['Average Quiz Score'] = QuizAttempt.objects.filter(
+            student= user, is_completed= True).aggregate(avg_score= Avg('score'))['avg_score'] or 0
 
     notifications = Notification.objects.filter(user= request.user).order_by('-created_at')
 
@@ -104,7 +116,7 @@ def profile(request):
     unread_notifications_count = notifications.filter(is_read=False).count()
 
     context ={'user_form': user_form, 'profile_form': profile_form, 
-              'enrolled_course': enrolled_course, 'instructor_course': instructor_course, 'page_title': 'profile',
+              'user_content': user_content, 'profile_stats': profile_stats,
               'notifications': notifications, 'unread_notifications_count': unread_notifications_count}
     
     section = request.GET.get('section', 'info')

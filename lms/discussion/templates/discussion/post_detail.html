@@ -18,6 +18,10 @@
 
             <div class="card-header d-flex justify-content-between">
                 <strong>{{post.author.username}}</strong>
+                {% if post.author.is_instructor %}
+                    <span class="badge bg-success">Instructor</span>
+
+                {% endif %}
                 <small class="text-muted">{{post.created_at|timesince}} ago</small>
             </div>
 
@@ -36,6 +40,15 @@
 
                 <div class="card-header d-flex justify-content-between bg-light">
                     <strong>{{r.author.username}}</strong>
+
+                    {% if r.author.is_instructor %}
+                        <span class="badge bg-success">Instructor</span>
+                    
+                    {% elif r.author.is_student %}
+                        <span class="badge bg-secondary">Student</span>
+    
+                    {% endif %}
+
                     <small class="text-muted">{{r.created_at|timesince}} ago</small>
                 </div>
 

@@ -28,8 +28,8 @@ __pycache__/
 
 # Media and Static
 Static_collected/
-media/
-static/
+image/
+files/
 
 # IDE and OS specifiic files
 .idea/
