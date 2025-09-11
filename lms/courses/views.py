@@ -54,13 +54,14 @@ def course_list(request):
     else:
         category = None
 
+    # Pagination
     course = Course.objects.all()
     paginator = Paginator(course, 10)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
-    context= {'course': query, "categories": categories, 'selected_category': category, 
+    context= {'courses': query, "categories": categories, 'selected_category': category,
               'page_obj': page_obj, "page_title": 'All Courses'}
     return render(request, 'courses/course_list.html', context)
 
@@ -402,9 +403,14 @@ class LessonCreateView(LoginRequiredMixin, CreateView):
         # Automatically calculate and set the order for the new lesson.
         max_order = module.lesson.aggregate(Max('order'))['order__max']
         form.instance.order = (max_order or 0) + 1
-        
+    
+        response = super().form_valid(form)
+
+        #  Celery task
+        task_notify_new_lesson.delay(self.object.id, self.object.module.course.id)
+
         messages.success(self.request, "Lesson created successfully.")
-        return super().form_valid(form)
+        return response
     
     def get_success_url(self):
         # Redirect to the course detail page after creation

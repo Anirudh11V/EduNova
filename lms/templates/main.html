@@ -75,7 +75,7 @@
                 
                 {% for category in categories %}
                     {% if category.courses.all %}
-                    <h2 class="mb-4"> {{category.Name}} - Courses </h2>
+                    <h3 class="mb-4"> {{category.Name}} - Courses </h3>
                         <div class="row">
                             {% for course in category.courses.all|slice:":4" %}
                             

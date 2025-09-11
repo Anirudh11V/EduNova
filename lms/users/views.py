@@ -131,21 +131,6 @@ def profile(request):
     return render(request, template_name, context)
 
 
-# @login_required(login_url= 'users:login')
-# def student_dashboard(request):
-#     if not request.user.is_student:
-#         messages.warning(request, "This page is only for student.")
-
-#         if request.user.is_instructor:
-#             return redirect('users:profile')
-#         else:
-#             return redirect('courses:course_list')
-        
-#     enrolled_course = Enroll.objects.filter(student= request.user).select_related('course')
-
-#     context= {'enrolled_course': enrolled_course, 'page_title': 'My Learning Dashboard'}
-#     return render(request, 'users/stu_dashboard.html', context)
-
 @login_required
 def student_dashboard(request):
     if not request.user.is_student:

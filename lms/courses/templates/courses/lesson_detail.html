@@ -5,22 +5,23 @@
 <main>
     <section>
         <div class="container">
-            <p>
-                You are viewing lesson **{{lesson.order}}** of **{{lesson.module.lesson.count}}**
-            </p><hr>
+            <h6 class="row text-muted justify-content-end">
+                You are viewing lesson ({{lesson.order}}) of ({{lesson.module.lesson.count}})
+            </h6><hr>
 
-            <p>
+            <span>
                 <a href="{% url 'courses:course_details' course.slug %}">&laquo; Back to {{course.title}}</a>
-                <h1>Lesson : {{lesson.order}}: {{lesson.titile}}</h1>
-                <p>Module: {{module.title}}</p>
-            </p>
+                <p class="text-center">Module: {{module.title}}</p>
+                <h3>Lesson : {{lesson.order}}: {{lesson.title}}</h3>
+                
+            </span>
             <div class="lesson_content">
                 {% if lesson.content_type == 'text' %}
-                    <h4>Text Content</h4>
-                    {{lesson.text_content|safe}}
+                    <h5>Text Content</h5>
+                    <div class="mx-5 my-4">{{lesson.text_content|safe}}</div>
 
                 {% elif lesson.content_type == 'video_url' %}
-                    <h4>Video Content</h4>
+                    <h5>Video Content</h5>
 
                     {% if lesson.video_url %}
                     <div class="video_container">
@@ -31,7 +32,7 @@
                     {% endif %}
                 
                 {% elif lesson.content_type == 'file' %}
-                    <h4>File</h4>
+                    <h5>File</h5>
 
                     {% if lesson.file_upload %}
                     <p>
@@ -50,15 +51,19 @@
 
             </div>
 
-            <div class="nav_links">
+            <div class="nav_links row text-center">
                 {% if previous_lesson %}
+                <span class="col">
                     <a href="{% url 'courses:lesson_details' course.slug module.slug previous_lesson.slug %}">
                         &larr; Previous Lesson</a>
+                </span>
                 {% endif %}
 
                 {% if next_lesson %}
+                <span class="col">
                     <a href="{% url 'courses:lesson_details' course.slug module.slug next_lesson.slug %}">
                         &larr; next Lesson</a>
+                </span>
                 {% endif %}
             </div><hr>
 
@@ -123,9 +128,11 @@
 
         <div class="container">
             <h4>Leave a Comment</h4>
-            <form action="" method="post"> {% csrf_token %}
-                {{form.as_p}}
-                <button type="submit" class="btn-primary">Submit Comment</button>
+            <form action="" method="post" class="list-group"> {% csrf_token %}
+                {% for i in form %}
+                    {{i}}
+                {% endfor %}
+                <button type="submit" class="btn btn-primary mt-2">Submit Comment</button>
             </form>
         </div>
     </section>

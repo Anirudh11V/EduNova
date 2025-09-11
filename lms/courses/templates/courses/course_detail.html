@@ -1,9 +1,7 @@
 {% extends 'main.html' %}
 {% load static %}
 
-{% block title %}
-    {{page_title}}
-{% endblock title %}
+
 
 {% block content %}
 
@@ -13,12 +11,13 @@
             <a href="{% url 'courses:home' %}">&laquo; Back to HOME</a>
         </span>
         <div class="container">
-            <h2>{{course.title}}</h2>
-            <div class="mb-3">
-                <h4>
+            
+            <div class="row">
+                <span class="col"><h3>{{course.title}}</h3></span>
+                <h6 class="col justify-content-end">
                     Average Rating: {{course.average_rating|floatformat:1}} / 5.0
                     <small class="text-muted"> ({{reviews.count}} reviews) </small>
-                </h4>
+                </h6>
             </div>
 
             <div class="course_info">
@@ -42,13 +41,17 @@
             </div>
             {% if request.user.is_authenticated and request.user.is_student %}
                 {% if is_enrolled %}
-
-                <a class="text-muted success w-75 ">You are already_enrolled in this COURSE!!!!!!.</a>
-                <a href="{% url 'discussion:post_list' course.slug %}" class="btn btn-info ">
-                    Go to Course Discussion
-                </a>
+                <div class="row justify-content-between">
+                    <p class="col">
+                        <strong>You are already_enrolled in this COURSE!!!!!!.</strong>
+                    </p>
+                    <span class="col">
+                        <a href="{% url 'discussion:post_list' course.slug %}" class="d-block">
+                            Go to Course Discussion
+                        </a>
+                    </span>
+                </div>
                 
-
                 {% else %}
                 <form action="{% url 'enrollment:enroll_course' course.slug %}" method="post">{% csrf_token %}
                     <button type="submit" class="enroll_btn" >Enroll Now</button>
@@ -70,7 +73,7 @@
 
                 {% elif user_review %}
                     <div class="alert alert-info">
-                        You have already reviewed this course.
+                        <p class="text-center">You have already reviewed this course.</p>
                     </div>
                 
                 {% endif %}
@@ -84,7 +87,7 @@
                 </p>
             {% endif %}
 
-            <h2>Course Content</h2>
+            <h3>Course Content</h3>
 
             {% if course.instructor == request.user %}
 
@@ -93,15 +96,18 @@
             {% else %}
 
                 {% for module in modules %}
-                    <h3>Module {{module.order}}: {{module.title}}</h3>
-                        
-                    <p>{{module.description|safe}}</p>
+                    
+                    <h4 class="text-center text-muted">module {{module.order}}: {{module.title}}</h4>
+                    
+                    <strong class="text-muted">Module Description : </strong>
+                    {{module.description|safe}}
+                    
 
                     {% if module.lesson.all %}
-                        <h4>Lessons: </h4>
+                        <h4 class="text-muted">Lessons: </h4>
                         <ul>
                             {% for lesson in module.lesson.all %}
-                                <li class="lesson_item">
+                                <li class="list-group list-group-item list-group-item-action">
                                     <a href="{% url 'courses:lesson_details' course.slug module.slug lesson.slug %}">
                                         {{lesson.order}}, {{lesson.title}} 
                                         ({{lesson.get_content_type_display}})

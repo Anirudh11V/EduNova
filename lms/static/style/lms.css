@@ -4,7 +4,7 @@ body{
 a{text-decoration: none; font-weight: bold;}
 
 .container{
-    max-width: 960px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px;
+     margin: auto; background-color: #fff; padding: 20px; border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 h1{color: #333;}
@@ -67,7 +67,7 @@ nav h2{color: #007bff; font-family: Arial, Helvetica, sans-serif;}
 
 
 /* lesson_detail.html */
-.lesson_content h4{color: #007bff; margin-top: 0;}
+.lesson_content h5{color: #007bff; margin-top: 0;}
 .video_container{
     position: relative; padding-bottom: 56.25%; height: 0; overflow:  hidden;
     max-width: 100%; background: #000; margin-bottom: 20px;
