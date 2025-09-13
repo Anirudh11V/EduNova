@@ -54,7 +54,7 @@ class ModuleForm(forms.ModelForm):
 class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
-        fields = ['title', 'text_content', 'video_url', 'file_upload', 'is_published', 'order']
+        fields = ['title', 'content_type', 'text_content', 'video_url', 'video', 'file_upload', 'is_published', 'order']
         labels = {
             'title': 'Lesson Title',
             'text_content': 'Lesson Text Content',
@@ -66,6 +66,7 @@ class LessonForm(forms.ModelForm):
 
         widgets = {
             'text_content': TinyMCE(),
+            'video_url': forms.URLInput(attrs= {'placeholder': 'place the video url here...'}),
             'order': forms.NumberInput(attrs= {'placeholder': 'Enter a number'}),
         }
 

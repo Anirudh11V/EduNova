@@ -72,8 +72,11 @@ urlpatterns = [
          views.lesson_detail, 
          name= 'lesson_details'
          ),
+
+    
     
      # main url
+    
     path(
         'course_list/', 
         views.course_list, 

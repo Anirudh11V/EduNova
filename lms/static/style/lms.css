@@ -43,9 +43,9 @@ nav h2{color: #007bff; font-family: Arial, Helvetica, sans-serif;}
 .course_info img{
     width: 250px; height: 180px; object-fit: cover; border-radius: 5px;
 }
-.course_info_text{flex-grow: 1;}
+.course_info_text{flex-grow: 1; margin-left: 50px;}
 .course_meta span{
-    display: block; font-size: 0.9rem; color: #777; margin-bottom: 5px;
+    display: block; font-size: 0.9rem; color: #777; margin-bottom: 5px; margin-left: 50px;
 }
 .module_item{
     background-color: #f9f9f9; border: 1px solid #eee; margin-bottom: 10px; padding: 15px; border-radius: 5px;
@@ -346,5 +346,9 @@ textarea.form_control{resize: vertical;}
 }
 
 #profile_img_pic{
-    width: 80px; height: 80px; object-fit: cover;
+    width: 150px; height: 150px; object-fit: cover;
 }
+
+#video-field{display: none;}
+
+#videoFields{max-width: 800px;}

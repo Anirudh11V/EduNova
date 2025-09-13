@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+import uuid
+import os
 
 from courses.models import Course, Lesson
 # Create your models here.
@@ -27,10 +29,20 @@ class MemberUser(AbstractUser):
 
 User = get_user_model()
 
+def user_avatar_path(instance, filename):
+    """ Generate a unique path for user avatars. """
+    ext = filename.split('.')[-1]
+
+    # Generates a unique filename using uuid to prevent overwrites
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    # Return the new path in the format: avatars/<user_id>/<unique_filename>
+    return os.path.join('avatars', str(instance.user.id), filename)
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE, related_name= 'profile')
     bio = models.TextField(max_length= 500, blank= True)
-    profile_pic = models.ImageField(upload_to= 'profile_pics/', default= 'default.jpg', blank= True)
+    avatar = models.ImageField(upload_to= user_avatar_path, default= 'avatars/default.jpg', blank= True)
 
     headline = models.CharField(max_length= 100, blank= True, help_text= 'e.g., Senior Developer')
     location = models.CharField(max_length= 100, blank= True, help_text= 'e.g., Tamil Nadu, India')

@@ -7,39 +7,82 @@
 
 {% block content %}
 
-<main>
-    <section>
-        <div class="container p-auto">
+<section class="container mt-4">
+    <h3> {% if object %}Edit Lesson{% else %}Create Lesson{% endif %} in {{module.title}} </h3>
 
-            <h2>Lesson Creation / Edit</h2>
-            <p>For Course : {{course.title}} > Module : {{module.title}}</p>
+    <form action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
+        {{form.media}}
 
-            <form action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
-                {% for i in form %}
-
-                    <div class="list-group list-group-item list-group-item-action">
-                        <label for="{{i.id_for_label}}">{{i.label}} : </label>
-                        {{i}}
-
-                        {% if i.errors %}
-                            <ul class="errorlist">
-                                {% for error in i.errors %}
-                                    <li>{{error}}</li>
-                                {% endfor %}
-                            </ul>
-                        {% endif %}
-                        
-                    </div>
-
-                {% endfor %}
-                <button type="submit" class="btn btn-primary w-50 mt-3">Create / Edit</button>
-                <a href="{{course.get_absolute_url}}" class="btn btn-secondary mt-3">
-                    &laquo; Back
-                </a>
-            </form>
-
+        <div class="mb-3">
+            {{form.title.label_tag}} {{form.title}}
         </div>
-    </section>
-</main>
+
+        <div class="mb-3">
+            {{form.content_type.label_tag}} {{form.content_type}}
+        </div>
+
+        <div class="mb-3" id="video-url-field">
+            {{form.video_url.label_tag}} {{form.video_url}}
+        </div>
+
+        <div class="mb-3" id="text-content-field">
+            {{form.text_content.label_tag}} {{form.text_content}}
+        </div>
+
+        <div class="mb-3" id="video-field">
+            {{form.video.label_tag}} {{form.video}}
+        </div>
+
+        <hr>
+        <div class="mb-3">
+            {{form.file_upload.label_tag}} {{form.file_upload}}
+        </div>
+
+        <div class="mb-3">
+            {{form.is_published.label_tag}} {{form.is_published}}
+        </div>
+
+        <div class="mb-3">
+            {{form.order.label_tag}} {{form.order}}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Lesson</button>
+    </form>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const contentTypeSelect = document.getElementById('id_content_type');
+        const textField = document.getElementById('text-content-field');
+        const videourlField = document.getElementById('video-url-field');
+        const videoField = document.getElementById('video-field');
+
+        function toggleFields() {
+            if (contentTypeSelect.value === 'text') {
+                textField.style.display = 'block';
+                videourlField.style.display = 'none';
+                videoField.style.display = 'none';
+            } else if (contentTypeSelect.value === 'video') {
+                textField.style.display = 'none';
+                videourlField.style.display = 'none';
+                videoField.style.display = 'block';
+            } else if (contentTypeSelect.value === 'video_url') {
+                textField.style.display = 'none';
+                videourlField.style.display = 'block';
+                videoField.style.display = 'none';
+            } else { // For others
+                textField.style.display = 'none';
+                videourlField.style.display = 'none';
+                videoField.style.display = 'none';
+            }
+        }
+
+        // Initial check
+        toggleFields();
+
+        //Add Event listener
+        contentTypeSelect.addEventListener('change', toggleFields);
+    });
+</script>
 
 {% endblock content %}

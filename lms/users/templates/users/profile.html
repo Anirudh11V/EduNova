@@ -10,9 +10,15 @@
     <div class="row justify-content-center">
 
         <div class="col-md-4 text-center">
-            <img src="{{user.profile.profile_pics.url}}" alt="{{user.username}}'s avatar" 
-            srcset="{% static 'image/default.jpg' %}"
-            class="img-fluid rounded-circle mb-3" id="profile_img_pic">
+            {% if user.profile.avatar and user.profile.avatar.url %}
+                <img src="{{user.profile.avatar.url}}" alt="{{user.username}}'s avatar" 
+                    class="img-fluid rounded-circle mb-3" id="profile_img_pic">
+            
+            {% else %}
+                <img src="{% static 'image/default.jpg' %}" alt="default avatar"
+                class="img-fluid rounded-circle mb-3" id="profile_img_pic">
+
+            {% endif %}
 
             <h3> {{user.username}} </h3>
             <div class="mb-2">

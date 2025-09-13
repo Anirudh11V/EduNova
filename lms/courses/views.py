@@ -7,7 +7,7 @@ from users.models import UserLessonCompletion, MemberUser
 from users.task import task_notify_new_lesson
 
 from django.contrib.auth.decorators import login_required
-from django.http import Http404
+from django.http import Http404, FileResponse
 from django.db import IntegrityError, models
 from django.db.models import Max, Q, Prefetch
 from django.utils import timezone
@@ -17,6 +17,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
+import os
 # Create your views here.
 
 def home(request):

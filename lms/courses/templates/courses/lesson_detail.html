@@ -4,83 +4,116 @@
 
 <main>
     <section>
-        <div class="container">
-            <h6 class="row text-muted justify-content-end">
-                You are viewing lesson ({{lesson.order}}) of ({{lesson.module.lesson.count}})
-            </h6><hr>
+        <div class="container mt-4">
+            <h3>{{lesson.title}}</h3>
+            <p class="text-muted"> Module: {{lesson.module.title}} | Course: {{lesson.module.course.title}} </p>
+            <hr>
 
-            <span>
-                <a href="{% url 'courses:course_details' course.slug %}">&laquo; Back to {{course.title}}</a>
-                <p class="text-center">Module: {{module.title}}</p>
-                <h3>Lesson : {{lesson.order}}: {{lesson.title}}</h3>
+            <div class="card mb-3">
+                <div class="card-header">
+                    File Resources
+                </div>
+                {% if lesson.file_upload %}
+                    <div class="card-body">
+                        <a href="{{lesson.file_upload.url}}" target="_blank">View / Download Attachment</a>
+                    </div>
+
+                {% else %}
+                        <p class="text-muted">Not available yet.</p>
+                    
+                {% endif %}
+
+            </div>
+
+            <div class="card mb-2">  
+                <div class="card-header">
+                    Video
+                </div>
+                {% if lesson.video %}
+                    <div class="video-container mb-3" id="videoField">
+                        <video controls width="100%">
+                            <source src="{{lesson.video.url}}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+
+                {% else %}
+                    <p class="text-muted">Not available yet.</p>
+
+                {% endif %}
+            </div>
+
+            <div class="card mb-2">
+                <div class="card-header">
+                    Video_url
+                </div>
+                {% if lesson.video_url %}
+                    <div class="card-body mb-3">
+                        {{lesson.video_url|safe}}
+                    </div>
+
+                {% else %}
+                    <p class="text-muted">Not available yet.</p>
                 
+                {% endif %}
+
+            </div>
+            
+            <div class="card mb-2">
+                <div class="card-header">
+                    Text Content
+                </div>
+                {% if lesson.text_content %}
+                    <div class="card-body mb-3">
+
+                        <div class="mx-auto">
+                            {{lesson.text_content|safe}}
+                        </div>
+                        
+                    </div>
+
+                {% else %}
+                    <p class="text-muted">Not available yet.</p>
+
+                {% endif %}
+
+            </div>
+            
+        </div>  
+    </section>
+    
+    <section>
+
+        <div class="nav_links row text-center">
+            {% if previous_lesson %}
+            <span class="col">
+                <a href="{% url 'courses:lesson_details' course.slug module.slug previous_lesson.slug %}">
+                    &larr; Previous Lesson</a>
             </span>
-            <div class="lesson_content">
-                {% if lesson.content_type == 'text' %}
-                    <h5>Text Content</h5>
-                    <div class="mx-5 my-4">{{lesson.text_content|safe}}</div>
+            {% endif %}
 
-                {% elif lesson.content_type == 'video_url' %}
-                    <h5>Video Content</h5>
+            {% if next_lesson %}
+            <span class="col">
+                <a href="{% url 'courses:lesson_details' course.slug module.slug next_lesson.slug %}">
+                    &larr; next Lesson</a>
+            </span>
+            {% endif %}
+        </div><hr>
 
-                    {% if lesson.video_url %}
-                    <div class="video_container">
-                        <iframe src="{{lesson.video_url}}" frameborder="0"allowfullscreen></iframe>
-                    </div>
-                    {% else %}
-                    <p>No Video URL provided</p>
-                    {% endif %}
-                
-                {% elif lesson.content_type == 'file' %}
-                    <h5>File</h5>
+        <div class="mark_complete_section">
+            {% if lesson_completion.is_completed %}
+                <div class="completed_message">
+                    Lesson Completed! ({{lesson_completion.completed_at|date:"M d, Y H:i"}})
+                </div>
+            {% else %}
 
-                    {% if lesson.file_upload %}
-                    <p>
-                        <a href="{{lesson.file_upload.url}}" download>
-                            Download:{{lesson.file_upload.name|cut:"lesson_files/"}}
-                        </a>
-                    </p>
-                    {% else %}
-                    <p>No file </p>
-                    {% endif %}
-                
-                {% else %}
-                    <p>Unsupported lesson content type</p>
-
-                {% endif %}
-
-            </div>
-
-            <div class="nav_links row text-center">
-                {% if previous_lesson %}
-                <span class="col">
-                    <a href="{% url 'courses:lesson_details' course.slug module.slug previous_lesson.slug %}">
-                        &larr; Previous Lesson</a>
-                </span>
-                {% endif %}
-
-                {% if next_lesson %}
-                <span class="col">
-                    <a href="{% url 'courses:lesson_details' course.slug module.slug next_lesson.slug %}">
-                        &larr; next Lesson</a>
-                </span>
-                {% endif %}
-            </div><hr>
-
-            <div class="mark_complete_section">
-                {% if lesson_completion.is_completed %}
-                    <div class="completed_message">
-                        Lesson Completed! ({{lesson_completion.completed_at|date:"M d, Y H:i"}})
-                    </div>
-                {% else %}
-
-                    <form action="{% url 'courses:mark_lesson_complete' course.slug module.slug lesson.slug %}" 
-                    method="post" class="mark_complete_form">{% csrf_token %}
-                        <button type="submit" class="mark_complete_button">Mark-as-complete</button>
-                    </form>
-                {% endif %}
-            </div>
+                <form action="{% url 'courses:mark_lesson_complete' course.slug module.slug lesson.slug %}" 
+                method="post" class="mark_complete_form">{% csrf_token %}
+                    <button type="submit" class="mark_complete_button">Mark-as-complete</button>
+                </form>
+            {% endif %}
         </div>
+
     </section>
 
     <section>
