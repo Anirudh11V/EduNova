@@ -41,6 +41,9 @@ urlpatterns = [
     # Discussion app.
     path('discussion/', include('discussion.urls')),
 
+    #  api
+    path('api/<str:version>/', include('api.urls')),
+
     # tinymce
     path('tinymce/', include('tinymce.urls')),
 

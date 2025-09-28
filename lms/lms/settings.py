@@ -46,8 +46,12 @@ INSTALLED_APPS = [
     'enrollment',
     'quiz',
     'users',
+    'api',
 
     'tinymce',
+    'rest_framework',
+    'django_filters',
+    'drf_spectacular',
 ]
 
 AUTH_USER_MODEL = 'users.MemberUser'
@@ -178,3 +182,31 @@ CELERY_BROKER_URL = 'redis://localhost:6379/0'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+# REST FRAMEWORK JWT
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSESS': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
+
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination', 
+    'PAGE_SIZE': 10,
+
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+
+    'DEFAULT_THROTTLE_CLASSESS': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day',
+        'post': '1/min',
+    },
+
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
+    # Versioning Configuration
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.URLPathVersioning',
+    'DEFAULT_VERSION': 'v1',
+    'ALLOWED_VERSION': ['v1'],
+}
