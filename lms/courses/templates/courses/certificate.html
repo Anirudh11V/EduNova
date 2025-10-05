@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Completion</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tinos:wght@400;700&family=Monsterrat:wght@400;600&display=swap');
+
+        body{
+            font-family: 'Monsterrat', sans-serif;
+            text-align: center; padding: 40px;
+            border: 20px solid #78C2AD; 
+            width: 100%; margin: 100px auto;
+            box-sizing: border-box;
+        }
+
+        h1{
+            font-family: 'Tinos', serif;
+            font-size: 54px; font-weight: 700; color: #333; margin-bottom: 20px;
+        }
+
+        .subtitle{
+            font-size: 24px; color: #555; margin-bottom: 40px;
+        }
+
+        .student-name{
+            font-family: 'Tinos', serif; font-size: 48px; font-weight: 700;
+            color: #005A9C; margin: 60px 0; border-bottom: 2px solid #ddd;
+            display: inline-block; padding-bottom: 10px;
+        }
+
+        .description{
+            font-size: 20px; color: #555; line-height: 1.6; margin-bottom: 60px;
+        }
+
+        .date{
+            font-size: 18px; color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Certificate of Completion</h1>
+    <p class="subtitle">This Certificate is Proudly Presented to</p>
+    <p class="student-name"> {{student_name}} </p>
+
+    <p class="description">For successfully completing the online course
+        <br>
+        <strong> {{course_title}} </strong>
+    </p>
+
+    <p class="date">Issued on: {{completion_date}}</p>
+    
+</body>
+</html>

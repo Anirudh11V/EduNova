@@ -1,11 +1,10 @@
-EduNova - A simple Learning Management System.
+EduNova - A Feature-Rich Learning Management System (LMS).
 
 
 About the Project.
 
-	EduNova is a minimalist Learning Management System built with Django, designed to provide a foundational platform 
-for managing online course, modules, lessons. It supports distinct user roles (students, instructor), course enrollment
-and basic lesson content delivery and tracking.
+	EduNova is a robust, full-stack Learning Management System built with Django, designed to provide a platform 
+for instructors to create and manage online course, modules, lessons and fofr students to enroll, learn and interact. The project features a complete backend, an asynchronous task queue for notifications, and a comprehensive REST API.
 
 	This project was developed as a learning exercise to solidify concepts in Django web development, including : 
 	-Custom user models and authentication,
@@ -18,7 +17,7 @@ and basic lesson content delivery and tracking.
 	-Rich text editor.
 
 Project Status:
-	This project is in active development. The core functionality is in place, allowing instructor to create courses and students to enroll and complete lessons.
+	This project is in active development. The core functionality is in place, allowing instructor to create courses and students to enroll and learn.
 
 	Core Feature : Fully functional.
 	Quiz System : Fully functional.
@@ -28,35 +27,28 @@ Project Status:
 
 Features.
 
-	-User authentication and roles-
-		-Student registration and login system.
-		-Separate permission based role for students and instructor.
-		-Instructor Request Workflow: 
-			Users can request to became an instructor during registration. An admin must approve the request before instructor privileges are granted.
-		
-	-Course & Content management-
-		-Instructor can create, update and delete their course through a dedicated dashboard.
-		-Courses are organized into modules, which in turn contain individual lessons.
-		-Support for multiple lesson content type, including text, video urls, files.
-		
-	-Enrollment & Progress tracking-
-		-Students can browse and enroll in published courses.
-		-Prevents students from enrolling in the same course multiple times.
-		-Students can mark individual lesson as complete to track their learning progress.
+	-Course Management: Full CRUD functionality for courses, modules, and lessons.
 
-	-In App Notification-
-		-Instructor receive a notification when a new student enroll in their course.
-		-Student receive a notification when a new lesson added to a course they are enrolled in.
-		-Admin are notified when a user request instructor privileges.
-		
-	-Lesson interaction-
-		-A simple commenting system allows students to post comments on each lesson.
-		
-	-Django admin integrations-
-		-Full adminstration interface for managing users, courses, modules, lessons and enrollment.
+	-Rich Lesson Content: Support for rich text (TinyMCE), video, and file.
 
-	-Discussion-
-		-Instructor and Student can build conversation in their course.
+	-Interactive Quizzes: Instructors can create quizzes with multiple-choice questions for lessons.
+
+	-Students Enrollment System: Students can enroll in the courses to track their progess.
+
+	-Progress Tracking: Automatic calculation of course completion percentage for students.
+
+	-PDF Certificate Generation: Students can download a certificate upon course completion.
+
+	-Discussion Forum: A nested discussion board for each course.
+
+	-Notifications: Asynchronous email notifications (via Celery) for new lessons.
+
+	-REST API: A professional, versioned API for all major features, including:
+		* JWT Authentication.
+		* Pagination, Filtering, Searching and Ordering.
+		* Rate Limiting (Throttling).
+		* Role-based permissions for students and instructors.
+		* Auto generated documentation (Swagger & Redoc).
 
 
 Technologies Used.
@@ -64,9 +56,14 @@ Technologies Used.
 	-Backend-
 		-Python 3.11
 		-Django 5.2
+		-Django REST Framework
 		
 	-Database-
 		-PostgreSQL 
+
+	-Asynchronous Tasks-
+		-Celery
+		-Redis
 		
 	-Frontend-
 		-Html5
@@ -76,6 +73,9 @@ Technologies Used.
 	-Tool
 		-Docker
 		-TinyMCE
+
+	-Development Environment-
+		-WSL
 
 
 Getting Started.
@@ -101,17 +101,23 @@ Getting Started.
 				
 		3. Install dependencies : 
 			- pip install -r requirements.txt
+
+		4. Configure your '.env' file with your database credentials and secret key.
+ 			
+		5. Apply migrations and start server : 
+			- python manage.py migrate
 			
-		4. Apply database migrations : 
-			- py manage.py makemigrations
-			- py manage.py migrate
-			
-		5. Create superuser : 
+		6. Create superuser : 
 			- py manage.py createsuperuser
 			
 		-Running Applications-
+			0. honcho start
+
+					(or)
+
 			1. Start Django development server.
-				-py manage.py runserver
+				-celery -A lms worker -l info
+				-python manage.py runserver
 				
 			2. Access the application.
 				-Open your web browser and go to "http://127.0.0.1:8000/"
@@ -189,12 +195,8 @@ Future Enhancements.
 	-Payment gateway integrations: Implement a real payment gateway for paid course.
 	
 	-Assignments: Add functionality for assignments, and grading.
-
-	-Certificate: Add functionality for certification after successfully completion of course.
 	
 	-Notifications: Advanced, email notification for enrollment, new lessons etc.
-	
-	-Improved UI\UX: A more polished and responsive frontend design using Css framework.
 	
 	-Media housting: Integration with cloud storage for media files.
 	

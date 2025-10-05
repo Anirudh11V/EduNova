@@ -1,15 +1,15 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Category, Course, Module, Lesson, Review
-from .forms import CourseForm, ModuleForm, LessonForm, CommentForm, CategoryForm, ReviewForm
+from .forms import CourseForm, ModuleForm, LessonCreateForm, LessonUpdateForm, CommentForm, CategoryForm, ReviewForm
 from enrollment.models import Enroll
 from quiz.models import QuizAttempt, Quiz
 from users.models import UserLessonCompletion, MemberUser
 from users.task import task_notify_new_lesson
 
 from django.contrib.auth.decorators import login_required
-from django.http import Http404, FileResponse
+from django.http import Http404, FileResponse, HttpResponse
 from django.db import IntegrityError, models
-from django.db.models import Max, Q, Prefetch
+from django.db.models import Max, Q, Prefetch, F
 from django.utils import timezone
 from django.contrib import messages
 from django.utils.text import slugify
@@ -17,6 +17,8 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+from weasyprint import HTML
 import os
 # Create your views here.
 
@@ -359,6 +361,32 @@ class ModuleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['course'] = self.object.course
         return context
+
+    def form_valid(self, form):
+        # Get the original order before any changes are saved.
+        original_order = self.get_object().order
+        new_order = form.cleaned_data.get('order')
+
+        module = self.get_object().module
+
+        # If the order is changed, we need to re-order other lessons.
+        if original_order != new_order:
+            if original_order > new_order:
+                # The lesson moved up the list. We need to shift lessons between the new and old order.
+                lessons_to_shift = course.module.filter(
+                    order__gte= new_order,
+                    order__lt= original_order).exclude(pk= self.object.pk)
+                lessons_to_shift.update(order= F('order') + 1)
+
+            else:
+                # The lesson moved down the list.
+                lessons_to_shift = course.module.filter(
+                    order__gt= original_order,
+                    order__lte= new_order ).exclude(pk= self.object.pk)
+                lessons_to_shift.update(order= F('order') - 1)
+
+        messages.success(seld.request, "Module updated successfully.")
+        return super().form_valid(form)
     
     def test_func(self):
         return self.get_object().course.instructor == self.request.user
@@ -383,7 +411,7 @@ class ModuleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class LessonCreateView(LoginRequiredMixin, CreateView):
     model = Lesson
-    form_class = LessonForm
+    form_class = LessonCreateForm
     template_name = 'courses/lesson_form.html'
 
     def get_context_data(self, **kwargs):
@@ -420,7 +448,7 @@ class LessonCreateView(LoginRequiredMixin, CreateView):
 
 class LessonUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Lesson
-    form_class = LessonForm
+    form_class = LessonUpdateForm
     template_name = 'courses/lesson_form.html'
     slug_url_kwarg = 'lesson_slug'  # to find lesson by its own slug
 
@@ -430,6 +458,32 @@ class LessonUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         context['course'] = self.object.module.course
         context['module'] = self.object.module
         return context
+
+    def form_valid(self, form):
+        # Get the original order before any changes are saved.
+        original_order = self.get_object().order
+        new_order = form.cleaned_data.get('order')
+
+        module = self.get_object().module
+
+        # If the order is changed, we need to re-order other lessons.
+        if original_order != new_order:
+            if original_order > new_order:
+                # The lesson moved up the list. We need to shift lessons between the new and old order.
+                lessons_to_shift = module.lesson.filter(
+                    order__gte= new_order,
+                    order__lt= original_order).exclude(pk= self.object.pk)
+                lessons_to_shift.update(order= F('order') + 1)
+
+            else:
+                # The lesson moved down the list.
+                lessons_to_shift = module.lesson.filter(
+                    order__gt= original_order,
+                    order__lte= new_order ).exclude(pk= self.object.pk)
+                lessons_to_shift.update(order= F('order') - 1)
+
+        messages.success(seld.request, "lesson updated successfully.")
+        return super().form_valid(form)
 
     def test_func(self):
         # Check if the current user is the instructor
@@ -450,3 +504,36 @@ class LessonDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def get_success_url(self):
         return self.object.module.get_absolute_url()
 # ------------- LESSON CRUD ENDS------------------------------------------------.
+
+@login_required
+def generate_certificate(request, course_slug):
+    # Get the course object.
+    course = get_object_or_404(Course, slug= course_slug)
+
+    # security check: Is the user enrolled and have they completed the course?
+    try:
+        enrollment = Enroll.objects.get(student= request.user, course= course)
+        if enrollment.progress_percentage == 100:
+            messages.success(request, "You have not completed this course yet.")
+
+    except Enroll.DoesNotExist:
+        messages.error(request, "You are not enrolled in this course.")
+        return redirect("users:student_dashboard")
+
+    # Prepare the context for the template.
+    context = {
+        'student_name': request.user.get_full_name() or request.user.username,
+        'course_title': course.title,
+        'completion_date': timezone.now().strftime('%B %d, %Y'), 
+    }
+
+    # Render the HTML template to a string.
+    html_string = render_to_string('courses/certificate.html', context)
+
+    # Use weasyprint to generate the pdf.
+    pdf_file = HTML(string= html_string).write_pdf()
+
+    # create the HttpResponse.
+    response = HttpResponse(pdf_file, content_type='application/pdf')
+    response['Content-Dispostion'] = f'attachment;filename="certificate-{course.slug}.pdf"'
+    return response

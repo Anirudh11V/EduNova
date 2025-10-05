@@ -17,33 +17,41 @@
             </p>
 
             <p class="m-auto mt-3 mb-3">
-                <a href="{% url 'courses:course_update' course.slug %}">Edit Course</a> | 
-                <a href="{% url 'courses:course_delete' course.slug %}">Delete Course</a>
+                <a href="{% url 'courses:course_update' course.slug %}" class="btn btn-sm btn-outline-secondary" title="Edit Course">
+                    <i class="bi bi-pencil-square"></i>
+                </a> | 
+                <a href="{% url 'courses:course_delete' course.slug %}" class="btn btn-sm btn-outline-danger" title="Delete Course">
+                    <i class="bi bi-trash"></i>
+                </a>
             </p>
         
         </span>
         <h3>Modules & Lessons</h3>
         <p>
-            <a href="{% url 'courses:module_create' course.slug %}">Add New module</a>
+            <a href="{% url 'courses:module_create' course.slug %}"><i class="bi bi-plus-lg"></i> Add New module</a>
         </p>
         {% for module in course.modules.all %}
             <div class="module_manage">
                 <h5>{{module.order}} : {{module.title}}</h5>
                 <p>
-                    <a href="{% url 'courses:module_update' course.slug module.slug %}">Edit Module</a> |  
-                    <a href="{% url 'courses:module_delete' course.slug module.slug%}">Delete Module</a> | 
-                    <a href="{% url 'courses:lesson_create' course.slug module.slug %}">Add New Lesson</a>
+                    <a href="{% url 'courses:module_update' course.slug module.slug %}" class="btn btn-sm btn-outline-secondary" title="Edit Module">
+                        <i class="bi bi-pencil-square"></i>
+                    </a> |  
+                    <a href="{% url 'courses:module_delete' course.slug module.slug%}" class="btn btn-sm btn-outline-danger" title="Delete Module">
+                        <i class="bi bi-trash"></i>
+                    </a> | 
+                    <a href="{% url 'courses:lesson_create' course.slug module.slug %}"><i class="bi bi-plus-lg"></i>Add New Lesson</a>
                 </p>
                 <ul>
                     {% for lesson in module.lesson.all %}
                         <li class="list-group list-group-item list-group-item-action d-flex f-column ">
                             {{lesson.order}} : {{lesson.title}}
                             <span class="">
-                                <a href="{% url 'courses:lesson_update' course.slug module.slug lesson.slug%}">
-                                    Edit Lesson
+                                <a href="{% url 'courses:lesson_update' course.slug module.slug lesson.slug%}" class="btn btn-sm btn-outline-secondary" title="Edit Lesson">
+                                    <i class="bi bi-pencil-square"></i>
                                 </a> | 
-                                <a href="{% url 'courses:lesson_delete' course.slug module.slug lesson.slug %}">
-                                    Delete Lesson
+                                <a href="{% url 'courses:lesson_delete' course.slug module.slug lesson.slug %}" class="btn btn-sm btn-outline-danger" title="Delete Lesson">
+                                    <i class="bi bi-trash"></i>
                                 </a>
                             </span>
                         
@@ -51,11 +59,11 @@
                             <div class="d-flex justify-content-end mt-3 mb-3">
                                 {% if not lesson.quiz %}
                                     <a href="{% url 'quiz:quiz_create' lesson.id %}" class="btn btn-sm btn-primary w-25">
-                                        Add Quiz
+                                        <i class="bi bi-plus-lg"></i>Add Quiz
                                     </a>
                                 {% elif lesson.quiz %}
-                                    <a href="{% url 'quiz:quiz_manage' lesson.quiz.id %}" class="btn btn-sm btn-secondary">
-                                        Manage Quiz
+                                    <a href="{% url 'quiz:quiz_manage' lesson.quiz.id %}" class="btn btn-sm btn-secondary" title="Manage Quiz">
+                                        <i class="bi bi-pencil-square"></i>
                                     </a>
                                 {% endif %}
                             </div>

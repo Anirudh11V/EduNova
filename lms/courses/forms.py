@@ -51,25 +51,41 @@ class ModuleForm(forms.ModelForm):
         }
 
 
-class LessonForm(forms.ModelForm):
+# class LessonForm(forms.ModelForm):
+#     class Meta:
+#         model = Lesson
+#         fields = ['title', 'content_type', 'text_content', 'video_url', 'video', 'file_upload', 'is_published', 'order']
+#         labels = {
+#             'title': 'Lesson Title',
+#             'text_content': 'Lesson Text Content',
+#             'video_url': 'Video URL',
+#             'file_upload': 'Upload a file',
+#             'is_published': 'Publish this Lesson?',
+#             'order': 'Lesson ordering (eg. 1, 2, 3, ...)',
+#         }
+
+#         widgets = {
+#             'text_content': TinyMCE(),
+#             'video_url': forms.URLInput(attrs= {'placeholder': 'place the video url here...'}),
+#             'order': forms.NumberInput(attrs= {'placeholder': 'Enter a number'}),
+#         }
+
+class LessonCreateForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['title', 'content_type', 'text_content', 'video_url', 'video', 'file_upload', 'is_published']
+        widgets = {
+            'text_content': TinyMCE(),
+        }
+
+class LessonUpdateForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ['title', 'content_type', 'text_content', 'video_url', 'video', 'file_upload', 'is_published', 'order']
-        labels = {
-            'title': 'Lesson Title',
-            'text_content': 'Lesson Text Content',
-            'video_url': 'Video URL',
-            'file_upload': 'Upload a file',
-            'is_published': 'Publish this Lesson?',
-            'order': 'Lesson ordering (eg. 1, 2, 3, ...)',
-        }
-
         widgets = {
             'text_content': TinyMCE(),
-            'video_url': forms.URLInput(attrs= {'placeholder': 'place the video url here...'}),
-            'order': forms.NumberInput(attrs= {'placeholder': 'Enter a number'}),
+            'order': forms.NumberInput(attrs= {'placeholder': 'Enter a number'})
         }
-
 
 class CommentForm(forms.ModelForm):
     class Meta:

@@ -1,16 +1,23 @@
 from .models import Notification, MemberUser
 from courses.models import Course, Lesson
 from enrollment.models import Enroll
+from django.contrib.auth import get_user_model
 
 
-def create_notification(user, user_id, message, related_course= None, related_lesson= None):
-    Notification.objects.create(
-        user= user,
-        user_id= user_id,
-        message= message,
-        related_course= related_course,
-        related_lesson= related_lesson,
-    )
+User = get_user_model()
+
+
+def create_notification(user_id, message, related_course= None, related_lesson= None):
+    try:
+        user = User.objects.get(id= user_id)
+        notification = Notification.objects.create(
+            user= user,
+            message= message,
+            related_course= related_course,
+            related_lesson= related_lesson,
+        )
+    except User.DoesNotExist:
+        pass
 
 
 def notify_new_lesson(new_lesson, course):

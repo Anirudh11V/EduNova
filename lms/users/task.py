@@ -1,9 +1,12 @@
 from celery import shared_task
+from django.contrib.auth import get_user_model
 
 from .services import create_notification
 from courses.models import Course, Lesson
 from enrollment.models import Enroll
 
+
+user = get_user_model()
 
 @shared_task
 def task_notify_new_lesson(lesson_id, course_id):

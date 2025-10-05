@@ -76,6 +76,9 @@ urlpatterns = [
     
     
      # main url
+    path('<slug:course_slug>/certificate/', 
+        views.generate_certificate,
+        name= 'generate_certificate'),
     
     path(
         'course_list/', 

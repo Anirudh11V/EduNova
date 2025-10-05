@@ -352,3 +352,12 @@ textarea.form_control{resize: vertical;}
 #video-field{display: none;}
 
 #videoFields{max-width: 800px;}
+
+.card{
+    transition: transform 0.2 ease-in-out, box-shadow 0.2 ease-in-out;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

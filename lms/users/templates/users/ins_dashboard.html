@@ -13,7 +13,7 @@
 
             <div class="card-header mb-4">
                 <h2 class="dash_title">{{page_title}}</h2>
-                <a href="{% url 'courses:course_create' %}" class="btn btn-success">
+                <a href="{% url 'courses:course_create' %}" class="btn btn-success"><i class="bi bi-plus-lg"></i>
                     Create New Course
                 </a>
             </div>
@@ -42,8 +42,11 @@
                                     </a>
                                 </span>
                                 <span>
-                                    <a href="{% url 'courses:course_update' course.slug %}" class="edit_btn">Edit</a>
-                                    <a href="{% url 'courses:course_delete' course.slug %}" class="del_btn">Delete</a>
+                                    <a href="{% url 'courses:course_update' course.slug %}" class="btn btn-sm btn-outline-secondary" title="Edit">
+                                        <i class="bi bi-pencil-square"></i></a>
+                                    <a href="{% url 'courses:course_delete' course.slug %}" class="btn btn-sm btn-outline-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </span>
                             </div>
                             
