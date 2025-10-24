@@ -73,6 +73,7 @@ Technologies Used.
 	-Tool
 		-Docker
 		-TinyMCE
+		-WeasyPrint -> PDF Generation
 
 	-Development Environment-
 		-WSL
@@ -81,36 +82,48 @@ Technologies Used.
 Getting Started.
 	
 	Follow this instruction to get a copy of the project up and running on your local machine for development and testing purpose.
+
+	This project is configured to run in a professional Linux environment using WSL 2.
 	
 	-Prerequisites-
 		-python 3.8+
+		-wsl
 		-python (python package installer)
 		-Docker (optional for containerized setup)
 		
 	-Installation-
-		1. Clone the repository : bash
+		1. Clone the repository into your WSL/Linux home directory : bash
 			git clone https://github.com/Anirudh11V/Learning_Management_System.git 
-			cd lms
+			cd lms-project
 			
 		2. Create and activate a virtual environment :
 			-on windows : py -m venv venv 
 					then, venv\acripts\activate
 						  
-			-on macos/linux : python -m venv venv
+			-on macos/linux : python3 -m venv venv
 					then, source venv/bin/activate
 				
-		3. Install dependencies : 
+		3. Install dependencies (for postgreSQL, Weasyprint) : bash
+			- sudo apt-get update
+			- sudo apt-get install -y libpq-dev python3-dev build-essential libjpeg-dev zlib1g-dev libpango-1.0-0 libcairo2
+			libgdk-pixbuf2.0-0 gettext
+
+		4. Install pyrhon packages:
 			- pip install -r requirements.txt
 
-		4. Configure your '.env' file with your database credentials and secret key.
+		5. Configure your '.env' file with your database credentials and secret key.
  			
-		5. Apply migrations and start server : 
+		6. Start services (PostgreSQL and Redis) : 
+			- sudo service postgresql start
+			- sudo service redis-server start
+			
+		7. Setup the database :
+			(In a seperate terminal, log in to 'psql' and create the 'lms_db' and 'lms_user'.)
+
 			- python manage.py migrate
+			- python manage.py createsuperuser
 			
-		6. Create superuser : 
-			- py manage.py createsuperuser
-			
-		-Running Applications-
+		8.Running Applications-
 			0. honcho start
 
 					(or)
