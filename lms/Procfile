@@ -1,2 +1,2 @@
-web: python manage.py runserver 0.0.0.0:1906
+web: python manage.py runserver 0.0.0.0:1919
 worker: celery -A lms worker -l info
